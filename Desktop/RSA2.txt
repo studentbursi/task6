@@ -1,0 +1,41 @@
+import math
+
+def gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a
+
+def mod_inverse(a, m):
+    for x in range(1, m):
+        if (a * x) % m == 1:
+            return x
+    return None
+
+def encrypt_rsa(text, e, n):
+    encrypted_text = ""
+    for char in text:
+        char_code = ord(char)
+        encrypted_char_code = pow(char_code, e, n)
+        encrypted_text += str(encrypted_char_code) + " "
+    return encrypted_text.strip()
+
+def main():
+    filename = "input.txt"  # Replace with your input file
+    with open(filename, "r") as file:
+        plaintext = file.read()
+
+    p = 3
+    q = 13
+    n = p * q
+    phi_n = (p - 1) * (q - 1)
+    e = 5  # Public key
+
+    ciphertext = encrypt_rsa(plaintext, e, n)
+
+    with open("encrypted_output.txt", "w") as output_file:
+        output_file.write(ciphertext)
+
+    print("Encryption completed. Encrypted output saved to encrypted_output.txt")
+
+if __name__ == "__main__":
+    main()
